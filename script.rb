@@ -57,11 +57,11 @@ module Enumerable
   end
 
   def my_inject
-    i = 0
-    while i < self.size
-      yield(self[i])
-      i += 1
+    counter = 0
+    my_each do |number|
+      counter = yield(counter, number)
     end
+    counter
   end
 end
 
@@ -87,5 +87,5 @@ include Enumerable
 # puts "-----------"
 [1, 2, 3, 4, 5].my_map { |x| p x * 2 }
 puts "-----------"
-# [1, 2, 3, 4, 5, 6, 7].my_inject { |accum, num| puts accum + num }
-# puts "-----------"
+print [1, 2, 3, 4, 5, 6, 7].my_inject { |accum, num| accum + num }
+puts "-----------"
