@@ -35,6 +35,13 @@ module Enumerable
     false
   end
 
+  def my_none?
+    my_each do |number|
+      return false if yield(number)
+    end
+    true
+  end
+
   def my_count
     counter = 0
     my_each { |x| counter += 1 if yield(x) }
@@ -68,7 +75,10 @@ puts "-----------"
 print [1, 2, 3, 4, 5].my_all? { |x| x % 3 == 0 }
 puts
 puts "-----------"
-print [1, 2, 2, 2, 2].my_any? { |x| x > 3 }
+print [1, 2, 2, 2, 5].my_any? { |x| x > 3 }
+puts
+puts "-----------"
+print [1, 2, 2, 1, 2].my_none? { |x| x > 3 }
 puts
 puts "-----------"
 print [1, 12, 13, 14, 3].my_count { |x| x < 10 }
