@@ -1,5 +1,4 @@
 module Enumerable
-  
   def my_each
     i = 0
     while i < self.size
@@ -51,7 +50,8 @@ module Enumerable
   def my_map(&prc)
     my_array_map = []
     my_each do |el|
-      block_given? ? my_array_map << prc.call(el) : my_array_map << yield(el) 
+      return my_array_map << prc.call(el) if block_given?
+      end
     end
     my_array_map
   end
@@ -71,10 +71,8 @@ module Enumerable
     end
     multi
   end
-
 end
 
-include Enumerable
 # [1, 2, 3, 4, 5].my_each { |x| p x }
 # puts "-----------"
 # [1, 2, 3, 4, 5].my_each_with_index { |x, y| puts "#{x} with index #{y}" }
@@ -94,8 +92,8 @@ include Enumerable
 # print [1, 12, 13, 14, 3].my_count { |x| x < 10 }
 # puts
 # puts "-----------"
-[1, 2, 3, 4, 5].my_map { |x| puts x * 2 }
-puts "-----------"
+# [1, 2, 3, 4, 5].my_map { |x| puts x * 2 }
+# puts "-----------"
 # print [1, 2, 3, 4, 5, 6, 7].my_inject { |accum, num| accum + num }
 # puts
 # puts "-----------"
