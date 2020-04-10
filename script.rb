@@ -1,4 +1,5 @@
 module Enumerable
+  
   def my_each
     i = 0
     while i < self.size
@@ -6,6 +7,7 @@ module Enumerable
       i += 1
     end
   end
+
   def my_each_with_index
     for j in 0...self.size
       yield(self[j], j)
@@ -27,11 +29,12 @@ module Enumerable
     end
     my_all_array
   end
-  def my_any
-    for j in 0...self.size
-      yield(self[j])
-    end
+
+  def my_any?
+    my_each { |x| return true if yield(x) }
+    false
   end
+
   def my_count
     i = 0
     while i < self.length
@@ -63,8 +66,8 @@ puts "-----------"
 print [1, 2, 3, 4, 5].my_select { |x| x % 2 == 0 }
 puts "-----------"
 print [1, 2, 3, 4, 5].my_all? { |x| x % 3 == 0 }
-# puts "-----------"
-# [1, 2, 3, 4, 5].my_any { |x| puts x % 3 == 0 }
+puts "-----------"
+print [1, 2, 2, 2, 2].my_any? { |x| x > 3 }
 # puts "-----------"
 # [1, 2, 3, 4, 5].my_count { |x| puts x % 2 == 0 }
 # puts "-----------"
