@@ -30,6 +30,13 @@ module Enumerable
       yield(self[j])
     end
   end
+  def my_count
+    i = 0
+    while i < self.length
+      yield(self[i])
+      i += 1
+    end
+  end
 end
 
 include Enumerable
@@ -42,4 +49,6 @@ puts "-----------"
 [1, 2, 3, 4, 5].my_all { |x| puts x > 3 }
 puts "-----------"
 [1, 2, 3, 4, 5].my_any { |x| puts x % 3 == 0 }
+puts "-----------"
+[1, 2, 3, 4, 5].my_count { |x| puts x % 2 == 0 }
 puts "-----------"
