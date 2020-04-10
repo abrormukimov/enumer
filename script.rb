@@ -11,19 +11,21 @@ module Enumerable
       yield(self[j], j)
     end
   end
+
   def my_select
-    i = 0
-    while i < self.length
-      yield(self[i])
-      i += 1
+    my_array = []
+    my_each do |element|
+      my_array << element if yield(element)
     end
+    my_array
   end
-  def my_all
-    i = 0
-    while i < self.length
-      yield(self[i])
-      i += 1
+
+  def my_all?
+    my_all_array = []
+    my_each do |numbers|
+      my_all_array << numbers if yield(numbers)
     end
+    my_all_array
   end
   def my_any
     for j in 0...self.size
@@ -44,6 +46,13 @@ module Enumerable
       i += 1
     end
   end
+  def my_inject
+    i = 0
+    while i < self.size
+      yield(self[i])
+      i += 1
+    end
+  end
 end
 
 include Enumerable
@@ -51,13 +60,15 @@ include Enumerable
 puts "-----------"
 [1, 2, 3, 4, 5].my_each_with_index { |x, y| puts "#{x} with index #{y}" }
 puts "-----------"
-[1, 2, 3, 4, 5].my_select { |x| puts x % 2 == 0 }
+print [1, 2, 3, 4, 5].my_select { |x| x % 2 == 0 }
 puts "-----------"
-[1, 2, 3, 4, 5].my_all { |x| puts x > 3 }
-puts "-----------"
-[1, 2, 3, 4, 5].my_any { |x| puts x % 3 == 0 }
-puts "-----------"
-[1, 2, 3, 4, 5].my_count { |x| puts x % 2 == 0 }
-puts "-----------"
-[1, 2, 3, 4, 5].my_map { |x| puts x * 2 }
-puts "-----------"
+print [1, 2, 3, 4, 5].my_all? { |x| x % 3 == 0 }
+# puts "-----------"
+# [1, 2, 3, 4, 5].my_any { |x| puts x % 3 == 0 }
+# puts "-----------"
+# [1, 2, 3, 4, 5].my_count { |x| puts x % 2 == 0 }
+# puts "-----------"
+# [1, 2, 3, 4, 5].my_map { |x| puts x * 2 }
+# puts "-----------"
+# [1, 2, 3, 4, 5, 6, 7].my_inject { |accum, num| puts accum + num }
+# puts "-----------"
