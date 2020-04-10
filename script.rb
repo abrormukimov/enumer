@@ -25,6 +25,11 @@ module Enumerable
       i += 1
     end
   end
+  def my_any
+    for j in 0...self.size
+      yield(self[j])
+    end
+  end
 end
 
 include Enumerable
@@ -35,4 +40,6 @@ puts "-----------"
 [1, 2, 3, 4, 5].my_select { |x| puts x % 2 == 0 }
 puts "-----------"
 [1, 2, 3, 4, 5].my_all { |x| puts x > 3 }
+puts "-----------"
+[1, 2, 3, 4, 5].my_any { |x| puts x % 3 == 0 }
 puts "-----------"
