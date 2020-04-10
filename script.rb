@@ -36,12 +36,11 @@ module Enumerable
   end
 
   def my_count
-    i = 0
-    while i < self.length
-      yield(self[i])
-      i += 1
-    end
+    counter = 0
+    my_each { |x| counter += 1 if yield(x) }
+    counter
   end
+
   def my_map
     i = 0
     while i < self.length
@@ -64,12 +63,16 @@ puts "-----------"
 [1, 2, 3, 4, 5].my_each_with_index { |x, y| puts "#{x} with index #{y}" }
 puts "-----------"
 print [1, 2, 3, 4, 5].my_select { |x| x % 2 == 0 }
+puts
 puts "-----------"
 print [1, 2, 3, 4, 5].my_all? { |x| x % 3 == 0 }
+puts
 puts "-----------"
 print [1, 2, 2, 2, 2].my_any? { |x| x > 3 }
-# puts "-----------"
-# [1, 2, 3, 4, 5].my_count { |x| puts x % 2 == 0 }
+puts
+puts "-----------"
+print [1, 12, 13, 14, 3].my_count { |x| x < 10 }
+puts
 # puts "-----------"
 # [1, 2, 3, 4, 5].my_map { |x| puts x * 2 }
 # puts "-----------"
