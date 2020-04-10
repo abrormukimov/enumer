@@ -48,10 +48,10 @@ module Enumerable
     counter
   end
 
-  def my_map
+  def my_map(&prc)
     my_array_map = []
     my_each do |el|
-      my_array_map.push(el) if yield(el)
+      my_array_map << prc.call(el)
     end
     my_array_map
   end
@@ -63,6 +63,15 @@ module Enumerable
     end
     counter
   end
+
+  def multiply_els
+    multi = 1
+    my_each do |number|
+      multi = yield(multi, number)
+    end
+    multi
+  end
+
 end
 
 include Enumerable
@@ -85,7 +94,11 @@ include Enumerable
 # print [1, 12, 13, 14, 3].my_count { |x| x < 10 }
 # puts
 # puts "-----------"
-[1, 2, 3, 4, 5].my_map { |x| p x * 2 }
+[1, 2, 3, 4, 5].my_map { |x| puts x * 2 }
 puts "-----------"
-print [1, 2, 3, 4, 5, 6, 7].my_inject { |accum, num| accum + num }
-puts "-----------"
+# print [1, 2, 3, 4, 5, 6, 7].my_inject { |accum, num| accum + num }
+# puts
+# puts "-----------"
+# print [1, 2, 3, 5, 7].multiply_els { |accum, num| accum * num }
+# puts
+# puts "-----------"
