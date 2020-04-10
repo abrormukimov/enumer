@@ -51,7 +51,7 @@ module Enumerable
   def my_map(&prc)
     my_array_map = []
     my_each do |el|
-      my_array_map << prc.call(el)
+      block_given? ? my_array_map << prc.call(el) : my_array_map << yield(el) 
     end
     my_array_map
   end
