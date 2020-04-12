@@ -86,11 +86,10 @@ module Enumerable
     my_new_array
   end
 
-  def my_inject(number = nil)
+  def my_inject(number = false)
     counter = 1
     total = self[0]
     res = 0
-    res *= number if number
 
     while counter < self.size
       res = yield(total, self[counter])
