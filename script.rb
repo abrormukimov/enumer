@@ -97,7 +97,6 @@ module Enumerable
       total = res
       counter += 1
     end
-
     res
   end
 
