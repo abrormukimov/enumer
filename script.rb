@@ -12,7 +12,8 @@ module Enumerable
   def my_each_with_index
     return to_enum(:my_each_with_index) unless block_given?
 
-    for j in 0...self.size
+    j = 0
+    while j < self.size
       yield(self[j], j)
     end
   end
@@ -28,10 +29,9 @@ module Enumerable
   end
 
   def my_all?(block = false)
-    case
-    when block
+    if block
       my_each { |x| return false unless block === x }
-    when !block_given?
+    elsif !block_given?
       my_each { |x| return false unless x }
     else
       my_each { |x| return false unless yield(x) }
@@ -40,10 +40,9 @@ module Enumerable
   end
 
   def my_any?(block = false)
-    case
-    when block
+    if block
       my_each { |x| return true if block === x }
-    when !block_given?
+    elsif !block_given?
       my_each { |x| return true if x }
     else
       my_each { |x| return true if yield(x) }
@@ -52,10 +51,9 @@ module Enumerable
   end
 
   def my_none?(block = false)
-    case
-    when block
+    if block
       my_each { |x| return false if block === x }
-    when !block_given?
+    elsif !block_given?
       my_each { |x| return false if x }
     else
       my_each { |x| return false if yield(x) }
@@ -65,10 +63,9 @@ module Enumerable
 
   def my_count(block = false)
     counter = 0
-    case
-    when block
+    if block
       my_each { |x| counter += 1 if block === x }
-    when block_given?
+    elsif block_given?
       my_each { |x| counter += 1 if yield(x) }
     else
       counter = self.size
@@ -79,7 +76,7 @@ module Enumerable
   def my_map(&prc)
     my_new_array = []
     if prc
-      my_each { |x| my_new_array << prc.call(x)} if block_given?
+      my_each { |x| my_new_array << prc.call(x)} unless !block_given?
     else
       return to_enum(:my_map) unless block_given?
     end
