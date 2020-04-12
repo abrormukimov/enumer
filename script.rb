@@ -13,8 +13,9 @@ module Enumerable
     return to_enum(:my_each_with_index) unless block_given?
 
     j = 0
-    while j < self.size
+    while j < size
       yield(self[j], j)
+      j += 1
     end
   end
 
@@ -30,7 +31,7 @@ module Enumerable
 
   def my_all?(block = false)
     if block
-      my_each { |x| return false unless block === x }
+      my_each { |x| return false unless block == x }
     elsif !block_given?
       my_each { |x| return false unless x }
     else
@@ -41,7 +42,7 @@ module Enumerable
 
   def my_any?(block = false)
     if block
-      my_each { |x| return true if block === x }
+      my_each { |x| return true if block == x }
     elsif !block_given?
       my_each { |x| return true if x }
     else
@@ -52,7 +53,7 @@ module Enumerable
 
   def my_none?(block = false)
     if block
-      my_each { |x| return false if block === x }
+      my_each { |x| return false if block == x }
     elsif !block_given?
       my_each { |x| return false if x }
     else
@@ -64,11 +65,11 @@ module Enumerable
   def my_count(block = false)
     counter = 0
     if block
-      my_each { |x| counter += 1 if block === x }
+      my_each { |x| counter += 1 if block == x }
     elsif block_given?
       my_each { |x| counter += 1 if yield(x) }
     else
-      counter = self.size
+      counter = size
     end
     counter
   end
@@ -76,7 +77,7 @@ module Enumerable
   def my_map(&prc)
     my_new_array = []
     if prc
-      my_each { |x| my_new_array << prc.call(x)} if block_given?
+      my_each { |x| my_new_array << prc.call(x) } if block_given?
     else
       return to_enum(:my_map) unless block_given?
     end
@@ -89,7 +90,7 @@ module Enumerable
     res = 0
     res *= number if number
 
-    while counter < self.size
+    while counter < size
       res = yield(total, self[counter])
       total = res
       counter += 1
