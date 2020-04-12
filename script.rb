@@ -76,7 +76,7 @@ module Enumerable
   def my_map(&prc)
     my_new_array = []
     if prc
-      my_each { |x| my_new_array << prc.call(x)} unless !block_given?
+      my_each { |x| my_new_array << prc.call(x)} if block_given?
     else
       return to_enum(:my_map) unless block_given?
     end
