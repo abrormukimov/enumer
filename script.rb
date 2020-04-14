@@ -31,7 +31,7 @@ module Enumerable
 
   def my_all?(block = false)
     if block
-      my_each { |x| return false unless block == x }
+      my_each { |x| return false unless block === x }
     elsif !block_given?
       my_each { |x| return false unless x }
     else
@@ -42,7 +42,7 @@ module Enumerable
 
   def my_any?(block = false)
     if block
-      my_each { |x| return true if block == x }
+      my_each { |x| return true if block === x }
     elsif !block_given?
       my_each { |x| return true if x }
     else
@@ -53,7 +53,7 @@ module Enumerable
 
   def my_none?(block = false)
     if block
-      my_each { |x| return false if block == x }
+      my_each { |x| return false if block === x }
     elsif !block_given?
       my_each { |x| return false if x }
     else
@@ -65,7 +65,7 @@ module Enumerable
   def my_count(block = false)
     counter = 0
     if block
-      my_each { |x| counter += 1 if block == x }
+      my_each { |x| counter += 1 if block === x }
     elsif block_given?
       my_each { |x| counter += 1 if yield(x) }
     else
@@ -84,18 +84,21 @@ module Enumerable
     my_new_array
   end
 
-  def my_inject(number = false)
-    counter = 1
-    total = self[0]
-    res = 0
-    res *= number if number
+  def my_inject(first = nil, second = nil)
+    array = is_a?(Array) ? self : to_a
+    symbol = first if first.is_a?(Symbol) || first.is_a?(String)
+    accum = first if first.is_a? Integer
 
-    while counter < size
-      res = yield(total, self[counter])
-      total = res
-      counter += 1
+    if first.is_a?(Integer)
+      symbol = second if second.is_a?(Symbol) || second.is_a?(String)
     end
-    res
+
+    if symbol
+      array.my_each { |x| accum = accum ? accum.send(symbol, x) : x }
+    elsif block_given?
+      array.my_each { |x| accum = accum ? yield(accum, x) : x }
+    end
+    accum
   end
 
   def multiply_els
